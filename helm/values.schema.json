@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["replicaCount", "image", "existingSecret", "model", "retrieval", "service", "persistence", "resources", "qdrant", "telemetry"],
+  "properties": {
+    "replicaCount": {
+      "type": "integer", "minimum": 1, "maximum": 1,
+      "description": "Exactly one API replica until durable SQLite approvals/tools are replaced by shared transactional storage."
+    },
+    "existingSecret": {
+      "type": "string", "minLength": 1, "maxLength": 253,
+      "pattern": "^[a-z0-9]([a-z0-9.-]*[a-z0-9])?$"
+    },
+    "image": {"$ref": "#/definitions/image"},
+    "resources": {"$ref": "#/definitions/resources"},
+    "persistence": {"$ref": "#/definitions/persistence"},
+    "model": {
+      "type": "object", "additionalProperties": false,
+      "required": ["mode", "baseUrl", "name", "timeoutSeconds", "maxRetries", "fallbackEnabled"],
+      "properties": {
+        "mode": {"type": "string", "enum": ["demo", "nim"]},
+        "baseUrl": {"type": "string", "pattern": "^https?://[^/?#@]+(:[0-9]+)?(/[^?#]*)?$"},
+        "name": {"type": "string", "minLength": 1},
+        "timeoutSeconds": {"type": "number", "exclusiveMinimum": 0, "maximum": 600},
+        "maxRetries": {"type": "integer", "minimum": 0, "maximum": 5},
+        "fallbackEnabled": {"type": "boolean"}
+      }
+    },
+    "retrieval": {
+      "type": "object", "additionalProperties": false,
+      "required": ["topK", "chunkSize", "chunkOverlap"],
+      "properties": {
+        "topK": {"type": "integer", "minimum": 1, "maximum": 100},
+        "chunkSize": {"type": "integer", "minimum": 1},
+        "chunkOverlap": {"type": "integer", "minimum": 0}
+      }
+    },
+    "service": {
+      "type": "object", "additionalProperties": false,
+      "required": ["port"],
+      "properties": {"port": {"type": "integer", "minimum": 1, "maximum": 65535}}
+    },
+    "qdrant": {
+      "type": "object", "additionalProperties": false,
+      "required": ["image", "resources", "persistence"],
+      "properties": {
+        "image": {"$ref": "#/definitions/image"},
+        "resources": {"$ref": "#/definitions/resources"},
+        "persistence": {"$ref": "#/definitions/persistence"}
+      }
+    },
+    "telemetry": {
+      "type": "object", "additionalProperties": false,
+      "required": ["endpoint"],
+      "properties": {
+        "endpoint": {"type": "string", "pattern": "^$|^https?://[^/?#@]+(:[0-9]+)?(/[^?#]*)?$"}
+      }
+    }
+  },
+  "definitions": {
+    "image": {
+      "type": "object", "additionalProperties": false,
+      "required": ["repository", "tag", "pullPolicy"],
+      "properties": {
+        "repository": {"type": "string", "minLength": 1, "pattern": "^[a-z0-9][a-z0-9./:_-]*$"},
+        "tag": {"type": "string", "minLength": 1, "pattern": "^[A-Za-z0-9_][A-Za-z0-9_.-]*$", "not": {"enum": ["latest"]}},
+        "pullPolicy": {"type": "string", "enum": ["Always", "IfNotPresent", "Never"]}
+      }
+    },
+    "persistence": {
+      "type": "object", "additionalProperties": false,
+      "required": ["size", "storageClass"],
+      "properties": {
+        "size": {"type": "string", "pattern": "^[1-9][0-9]*(Mi|Gi|Ti)$"},
+        "storageClass": {"type": "string", "pattern": "^$|^[a-z0-9]([a-z0-9.-]*[a-z0-9])?$"}
+      }
+    },
+    "resources": {
+      "type": "object", "additionalProperties": false,
+      "required": ["requests", "limits"],
+      "properties": {
+        "requests": {"$ref": "#/definitions/quantities"},
+        "limits": {"$ref": "#/definitions/quantities"}
+      }
+    },
+    "quantities": {
+      "type": "object", "additionalProperties": false,
+      "required": ["cpu", "memory"],
+      "properties": {
+        "cpu": {"type": "string", "pattern": "^[0-9]+(m|([.][0-9]+)?)$"},
+        "memory": {"type": "string", "pattern": "^[1-9][0-9]*(Ki|Mi|Gi|Ti)$"}
+      }
+    }
+  }
+}

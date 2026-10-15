@@ -1,0 +1,6 @@
+Deployment Environment Guide
+
+The production environment supports GPU inference and requires a health probe.
+The staging environment supports GPU inference for pre-release validation.
+The development environment supports CPU inference only; it has no GPU capacity.
+Production and staging credentials must be supplied through Kubernetes Secrets.

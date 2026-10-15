@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "agent.fullname" . }}-qdrant
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "agent.selector" . | nindent 6 }}
+      app.kubernetes.io/component: qdrant
+  template:
+    metadata:
+      labels:
+        {{- include "agent.selector" . | nindent 8 }}
+        app.kubernetes.io/component: qdrant
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        {{- include "agent.security" . | nindent 8 }}
+      containers:
+        - name: vector-store
+          image: "{{ .Values.qdrant.image.repository }}:{{ .Values.qdrant.image.tag }}"
+          imagePullPolicy: {{ .Values.qdrant.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 6333
+          env:
+            - name: QDRANT__TELEMETRY_DISABLED
+              value: "true"
+            - name: QDRANT__STORAGE__SNAPSHOTS_PATH
+              value: /qdrant/storage/snapshots
+            - name: QDRANT_INIT_FILE_PATH
+              value: /qdrant/storage/.qdrant-initialized
+          securityContext:
+            {{- include "agent.containerSecurity" . | nindent 12 }}
+          resources:
+            {{- toYaml .Values.qdrant.resources | nindent 12 }}
+          startupProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 60
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 3
+          livenessProbe:
+            httpGet:
+              path: /livez
+              port: http
+            periodSeconds: 15
+            timeoutSeconds: 3
+          volumeMounts:
+            - name: vectors
+              mountPath: /qdrant/storage
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: vectors
+          persistentVolumeClaim:
+            claimName: {{ include "agent.fullname" . }}-qdrant-data
+        - name: tmp
+          emptyDir:
+            sizeLimit: 64Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "agent.fullname" . }}-qdrant
+  namespace: {{ .Release.Namespace }}
+spec:
+  type: ClusterIP
+  selector:
+    {{- include "agent.selector" . | nindent 4 }}
+    app.kubernetes.io/component: qdrant
+  ports:
+    - name: http
+      port: 6333
+      targetPort: http

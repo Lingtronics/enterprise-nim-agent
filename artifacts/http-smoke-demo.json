@@ -1,0 +1,12 @@
+{
+  "transport": "real HTTP over loopback TCP",
+  "mode": "demo",
+  "live": 200,
+  "ready": 200,
+  "anonymous_rejected": 401,
+  "reader_write_rejected": 403,
+  "rag_source_count": 4,
+  "model_path": "demo",
+  "trace_id": "6b7d24e5b0d1f2b450c0a120ba7a68d7",
+  "passed": true
+}

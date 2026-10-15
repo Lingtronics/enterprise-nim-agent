@@ -1,0 +1,31 @@
+{
+  "tests": {
+    "tests": 211,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0
+  },
+  "demo_evaluation": {
+    "cases": 24,
+    "failed_cases": []
+  },
+  "benchmarks": {
+    "benchmark-demo": {
+      "requests": 130,
+      "errors": 0
+    },
+    "benchmark-http-demo": {
+      "requests": 130,
+      "errors": 0
+    }
+  },
+  "helm_lint": "passed, Helm 4.3.0",
+  "deployment_structure": "passed",
+  "external_validation_pending": [
+    "live NIM credentials/inference",
+    "Docker build and Compose startup",
+    "kubectl client dry-run and cluster probes",
+    "OTLP collector deployment"
+  ],
+  "full_definition_of_done_verified": false
+}

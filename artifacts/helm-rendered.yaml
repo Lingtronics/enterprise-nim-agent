@@ -1,0 +1,300 @@
+---
+# Source: enterprise-nim-agent/templates/networkpolicy.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: enterprise-agent-enterprise-nim-agent-qdrant-private
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: enterprise-nim-agent
+      app.kubernetes.io/instance: enterprise-agent
+      app.kubernetes.io/component: qdrant
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: enterprise-nim-agent
+              app.kubernetes.io/instance: enterprise-agent
+              app.kubernetes.io/component: api
+      ports:
+        - protocol: TCP
+          port: 6333
+
+---
+# Source: enterprise-nim-agent/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: enterprise-agent-enterprise-nim-agent-config
+  namespace: default
+data:
+  MODEL_MODE: "demo"
+  NIM_BASE_URL: "https://integrate.api.nvidia.com/v1"
+  NIM_MODEL: "meta/llama-3.1-8b-instruct"
+  NIM_TIMEOUT_SECONDS: "30"
+  NIM_MAX_RETRIES: "2"
+  FALLBACK_ENABLED: "true"
+  DATABASE_PATH: /app/data/runtime.db
+  CORPUS_PATH: /app/sample_data
+  VECTOR_BACKEND: qdrant
+  QDRANT_URL: "http://enterprise-agent-enterprise-nim-agent-qdrant:6333"
+  RETRIEVAL_TOP_K: "6"
+  CHUNK_SIZE: "800"
+  CHUNK_OVERLAP: "100"
+  LOG_LEVEL: INFO
+  OTEL_EXPORTER_OTLP_ENDPOINT: ""
+
+---
+# Source: enterprise-nim-agent/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: enterprise-agent-enterprise-nim-agent-state
+  namespace: default
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+# Source: enterprise-nim-agent/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: enterprise-agent-enterprise-nim-agent-qdrant-data
+  namespace: default
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 5Gi
+
+---
+# Source: enterprise-nim-agent/templates/qdrant.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: enterprise-agent-enterprise-nim-agent-qdrant
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: enterprise-nim-agent
+    app.kubernetes.io/instance: enterprise-agent
+    app.kubernetes.io/component: qdrant
+  ports:
+    - name: http
+      port: 6333
+      targetPort: http
+
+---
+# Source: enterprise-nim-agent/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: enterprise-agent-enterprise-nim-agent
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: enterprise-nim-agent
+    app.kubernetes.io/instance: enterprise-agent
+    app.kubernetes.io/component: api
+  ports:
+    - name: http
+      port: 8000
+      targetPort: http
+
+---
+# Source: enterprise-nim-agent/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enterprise-agent-enterprise-nim-agent
+  namespace: default
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: enterprise-nim-agent
+      app.kubernetes.io/instance: enterprise-agent
+      app.kubernetes.io/component: api
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: enterprise-nim-agent
+        app.kubernetes.io/instance: enterprise-agent
+        app.kubernetes.io/component: api
+      annotations:
+        checksum/config: b903cb7551a2cd57f1a0363465e9b4b1a40d4c151edf0a807a4df22ef5813835
+    spec:
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 30
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: agent-api
+          image: "enterprise-nim-agent:0.1.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: enterprise-agent-enterprise-nim-agent-config
+          env:
+            - name: API_TOKENS_JSON
+              valueFrom:
+                secretKeyRef:
+                  name: enterprise-agent-secrets
+                  key: API_TOKENS_JSON
+            - name: NIM_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: enterprise-agent-secrets
+                  key: NIM_API_KEY
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: [ALL]
+          resources:
+            limits:
+              cpu: "1"
+              memory: 1Gi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          startupProbe:
+            httpGet:
+              path: /health/ready
+              port: http
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 60
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 3
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: http
+            periodSeconds: 15
+            timeoutSeconds: 3
+          volumeMounts:
+            - name: state
+              mountPath: /app/data
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: state
+          persistentVolumeClaim:
+            claimName: enterprise-agent-enterprise-nim-agent-state
+        - name: tmp
+          emptyDir:
+            sizeLimit: 64Mi
+
+---
+# Source: enterprise-nim-agent/templates/qdrant.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enterprise-agent-enterprise-nim-agent-qdrant
+  namespace: default
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: enterprise-nim-agent
+      app.kubernetes.io/instance: enterprise-agent
+      app.kubernetes.io/component: qdrant
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: enterprise-nim-agent
+        app.kubernetes.io/instance: enterprise-agent
+        app.kubernetes.io/component: qdrant
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: vector-store
+          image: "qdrant/qdrant:v1.19.2"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 6333
+          env:
+            - name: QDRANT__TELEMETRY_DISABLED
+              value: "true"
+            - name: QDRANT__STORAGE__SNAPSHOTS_PATH
+              value: /qdrant/storage/snapshots
+            - name: QDRANT_INIT_FILE_PATH
+              value: /qdrant/storage/.qdrant-initialized
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: [ALL]
+          resources:
+            limits:
+              cpu: "1"
+              memory: 1Gi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          startupProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 60
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 3
+          livenessProbe:
+            httpGet:
+              path: /livez
+              port: http
+            periodSeconds: 15
+            timeoutSeconds: 3
+          volumeMounts:
+            - name: vectors
+              mountPath: /qdrant/storage
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: vectors
+          persistentVolumeClaim:
+            claimName: enterprise-agent-enterprise-nim-agent-qdrant-data
+        - name: tmp
+          emptyDir:
+            sizeLimit: 64Mi

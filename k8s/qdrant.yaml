@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enterprise-qdrant
+  namespace: enterprise-agent
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: enterprise-qdrant
+  template:
+    metadata:
+      labels:
+        app: enterprise-qdrant
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: vector-store
+          image: qdrant/qdrant:v1.19.2
+          ports:
+            - name: http
+              containerPort: 6333
+          env:
+            - name: QDRANT__TELEMETRY_DISABLED
+              value: "true"
+            - name: QDRANT__STORAGE__SNAPSHOTS_PATH
+              value: /qdrant/storage/snapshots
+            - name: QDRANT_INIT_FILE_PATH
+              value: /qdrant/storage/.qdrant-initialized
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: [ALL]
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          startupProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 60
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 3
+          livenessProbe:
+            httpGet:
+              path: /livez
+              port: http
+            periodSeconds: 15
+            timeoutSeconds: 3
+          volumeMounts:
+            - name: vectors
+              mountPath: /qdrant/storage
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: vectors
+          persistentVolumeClaim:
+            claimName: enterprise-qdrant-data
+        - name: tmp
+          emptyDir:
+            sizeLimit: 64Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: enterprise-qdrant
+  namespace: enterprise-agent
+spec:
+  type: ClusterIP
+  selector:
+    app: enterprise-qdrant
+  ports:
+    - name: http
+      port: 6333
+      targetPort: http

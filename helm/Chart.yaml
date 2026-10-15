@@ -1,0 +1,6 @@
+apiVersion: v2
+name: enterprise-nim-agent
+description: Enterprise support agent with NIM, scoped Qdrant retrieval and durable approvals
+type: application
+version: 0.1.0
+appVersion: "0.1.0"

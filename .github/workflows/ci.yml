@@ -1,0 +1,45 @@
+name: Runtime and deployment validation
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  runtime:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r requirements.lock
+      - run: python -m pip install -e '.[dev]'
+      - run: python scripts/bootstrap_env.py
+      - run: python -m pytest --basetemp=.test_tmp/ci -q
+      - run: ruff check app tests evals benchmarks scripts
+      - run: python -m evals.runner --mode demo --output artifacts/evaluation-ci.json
+      - run: python scripts/validate_deployment.py
+      - run: python scripts/scan_secrets.py
+  containers:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - run: python scripts/bootstrap_env.py
+      - run: docker build -t enterprise-nim-agent:ci .
+      - run: docker compose up --build --wait --wait-timeout 180
+      - run: curl --fail http://localhost:8000/health/ready
+      - if: always()
+        run: docker compose down --volumes
+  helm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: azure/setup-helm@v5
+        with:
+          version: v3.22.0
+      - run: helm lint helm
+      - run: helm template enterprise-agent helm > /tmp/enterprise-agent.yaml

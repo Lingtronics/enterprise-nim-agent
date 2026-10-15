@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: enterprise-agent-config
+  namespace: enterprise-agent
+data:
+  MODEL_MODE: demo
+  NIM_BASE_URL: https://integrate.api.nvidia.com/v1
+  NIM_MODEL: meta/llama-3.1-8b-instruct
+  NIM_TIMEOUT_SECONDS: "30"
+  NIM_MAX_RETRIES: "2"
+  FALLBACK_ENABLED: "true"
+  DATABASE_PATH: /app/data/runtime.db
+  CORPUS_PATH: /app/sample_data
+  VECTOR_BACKEND: qdrant
+  QDRANT_URL: http://enterprise-qdrant:6333
+  RETRIEVAL_TOP_K: "6"
+  LOG_LEVEL: INFO

@@ -1,0 +1,53 @@
+{
+  "documents": [
+    {
+      "file": "atlas-requirements.md",
+      "document_id": "atlas-requirements",
+      "document_name": "Project Atlas Deployment Requirements",
+      "created_at": "2026-09-01T09:00:00Z",
+      "security_scope": "public"
+    },
+    {
+      "file": "environments.txt",
+      "document_id": "environments",
+      "document_name": "Deployment Environment Guide",
+      "created_at": "2026-09-02T09:00:00Z",
+      "security_scope": "public"
+    },
+    {
+      "file": "zephyr-requirements.md",
+      "document_id": "zephyr-requirements",
+      "document_name": "Project Zephyr Deployment Requirements",
+      "created_at": "2026-09-03T09:00:00Z",
+      "security_scope": "public"
+    },
+    {
+      "file": "atlas-legacy.md",
+      "document_id": "atlas-legacy",
+      "document_name": "Project Atlas Archived Deployment Requirements",
+      "created_at": "2026-05-01T09:00:00Z",
+      "security_scope": "public"
+    },
+    {
+      "file": "atlas-runbook.md",
+      "document_id": "atlas-runbook",
+      "document_name": "Project Atlas Internal Operations Runbook",
+      "created_at": "2026-09-04T09:00:00Z",
+      "security_scope": "internal"
+    },
+    {
+      "file": "restricted-finance.txt",
+      "document_id": "restricted-finance",
+      "document_name": "Confidential Financial Plan",
+      "created_at": "2026-09-05T09:00:00Z",
+      "security_scope": "finance"
+    },
+    {
+      "file": "adversarial.md",
+      "document_id": "adversarial",
+      "document_name": "Support Troubleshooting Note",
+      "created_at": "2026-09-06T09:00:00Z",
+      "security_scope": "public"
+    }
+  ]
+}

@@ -1,0 +1,3550 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-10-14T17:40:27.572866+00:00",
+  "mode": "demo",
+  "environment": {
+    "python": "3.12.4",
+    "os": "Windows",
+    "os_release": "11",
+    "logical_cpu_count": 16,
+    "client_transport": "asgi",
+    "target_url": null,
+    "api_backend": "sqlite",
+    "local_retrieval_backend": "sqlite",
+    "configured_vector_backend": "sqlite",
+    "model_names_observed": [
+      "deterministic-extractive-v1"
+    ],
+    "dependencies": {
+      "fastapi": "0.143.1",
+      "httpx": "0.28.1",
+      "langgraph": "1.2.15",
+      "opentelemetry-sdk": "1.45.1"
+    },
+    "corpus_manifest_sha256": "f02a692ec5db8906ae17d8a07608cf319bc44d7adc7ed1b2bc921dec3d288a04"
+  },
+  "methodology": {
+    "workload": "Cyclic mix of three evaluated RAG queries and one read-only deployment-status query. No writes or approvals.",
+    "setup": "Startup/ingestion excluded; no warmup requests. Semaphore wait excluded from each submitted request latency but included in profile wall throughput.",
+    "ttft": "Not measured: the adapter uses non-streaming completions. Unavailable TTFT is null, not zero.",
+    "tokens": "Only provider-reported token usage is used; demo mode has no invented token counts or rates.",
+    "cost": "Token prices must be explicitly configured and usage present. Resource/time metrics are reported without GPU cost estimates.",
+    "quality": "Task checks require completed responses, no output errors and attributed non-abstaining answers for these known RAG questions. This load test is not a semantic answer-quality judge."
+  },
+  "profiles": {
+    "interactive": {
+      "requests": 10,
+      "concurrency": 1,
+      "elapsed_seconds": 0.10681820000172593,
+      "successes": 10,
+      "errors": 0,
+      "success_rate": 1.0,
+      "error_rate": 0.0,
+      "requests_per_second": 93.61700534027369,
+      "successful_requests_per_second": 93.61700534027369,
+      "mix": {
+        "rag": 8,
+        "read_tool": 2
+      },
+      "http_latency_ms": {
+        "count": 10,
+        "p50": 8.226350000768434,
+        "p95": 21.399890004249738,
+        "max": 29.199199998402037
+      },
+      "component_latency_ms": {
+        "total": {
+          "count": 10,
+          "p50": 6.793950000428595,
+          "p95": 10.157840008469064,
+          "max": 10.78010001219809
+        },
+        "model": {
+          "count": 8,
+          "p50": 0.8318999971379526,
+          "p95": 1.2591750033607239,
+          "max": 1.433299999916926
+        },
+        "retrieval": {
+          "count": 8,
+          "p50": 2.239299996290356,
+          "p95": 3.199825002229772,
+          "max": 3.4730000043055043
+        },
+        "tool": {
+          "count": 2,
+          "p50": 1.9037000020034611,
+          "p95": 1.9945099993492477,
+          "max": 2.004599999054335
+        }
+      },
+      "ttft_ms": {
+        "count": 0,
+        "p50": null,
+        "p95": null,
+        "max": null
+      },
+      "effective_completion_tokens_per_second": null,
+      "token_rate_samples": 0,
+      "token_rate_definition": "Completion tokens divided by model call duration, including RPC, retry and backoff time; not decoding-only throughput.",
+      "cost_estimate": {
+        "currency": null,
+        "total": null,
+        "per_request": null,
+        "per_successful_task": null,
+        "priced_model_requests": 0,
+        "model_requests": 8,
+        "basis": "Provider token cost only; read-tool requests make no model call. CPU, GPU, storage and network resource costs are not estimated."
+      },
+      "model_names": [
+        "deterministic-extractive-v1"
+      ],
+      "model_paths": [
+        "demo"
+      ],
+      "records": [
+        {
+          "index": 0,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 29.199199998402037,
+          "timings_ms": {
+            "total": 10.78010001219809,
+            "model": 1.433299999916926,
+            "retrieval": 2.692499998374842,
+            "tool": null
+          },
+          "model_duration_ms": 1.2243000091984868,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 1,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 11.867400011396967,
+          "timings_ms": {
+            "total": 9.287999986554496,
+            "model": 0.92380000569392,
+            "retrieval": 2.6090000028489158,
+            "tool": null
+          },
+          "model_duration_ms": 0.7331999950110912,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 2,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 7.466199996997602,
+          "timings_ms": {
+            "total": 5.533500007004477,
+            "model": 0.5983000010019168,
+            "retrieval": 2.057500008959323,
+            "tool": null
+          },
+          "model_duration_ms": 0.46299998939502984,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 3,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 11.038700002245605,
+          "timings_ms": {
+            "total": 9.397300003911369,
+            "model": null,
+            "retrieval": null,
+            "tool": 2.004599999054335
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 4,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 10.02459999290295,
+          "timings_ms": {
+            "total": 8.343199995579198,
+            "model": 0.935800009756349,
+            "retrieval": 3.4730000043055043,
+            "tool": null
+          },
+          "model_duration_ms": 0.7688000041525811,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 5,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 7.629100000485778,
+          "timings_ms": {
+            "total": 6.02719999733381,
+            "model": 0.8178999996744096,
+            "retrieval": 2.3363999935099855,
+            "tool": null
+          },
+          "model_duration_ms": 0.6748000014340505,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 6,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 6.388200010405853,
+          "timings_ms": {
+            "total": 5.0288000056752935,
+            "model": 0.6165999948279932,
+            "retrieval": 2.1421999990707263,
+            "tool": null
+          },
+          "model_duration_ms": 0.5071999912615865,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 7,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 8.82360000105109,
+          "timings_ms": {
+            "total": 7.56070000352338,
+            "model": null,
+            "retrieval": null,
+            "tool": 1.8028000049525872
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 8,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 6.936499994480982,
+          "timings_ms": {
+            "total": 5.535900010727346,
+            "model": 0.8458999946014956,
+            "retrieval": 2.105799998389557,
+            "tool": null
+          },
+          "model_duration_ms": 0.6866000039735809,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 9,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 6.670500006293878,
+          "timings_ms": {
+            "total": 5.25589998869691,
+            "model": 0.7868999964557588,
+            "retrieval": 1.909800004796125,
+            "tool": null
+          },
+          "model_duration_ms": 0.643899998976849,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        }
+      ]
+    },
+    "sequential_baseline": {
+      "requests": 20,
+      "concurrency": 1,
+      "elapsed_seconds": 0.1493074999889359,
+      "successes": 20,
+      "errors": 0,
+      "success_rate": 1.0,
+      "error_rate": 0.0,
+      "requests_per_second": 133.9517438941919,
+      "successful_requests_per_second": 133.9517438941919,
+      "mix": {
+        "rag": 15,
+        "read_tool": 5
+      },
+      "http_latency_ms": {
+        "count": 20,
+        "p50": 7.04464999580523,
+        "p95": 9.130274987546727,
+        "max": 10.163400002056733
+      },
+      "component_latency_ms": {
+        "total": {
+          "count": 20,
+          "p50": 5.481649997818749,
+          "p95": 7.634130007500063,
+          "max": 8.693000010680407
+        },
+        "model": {
+          "count": 15,
+          "p50": 0.7459000044036657,
+          "p95": 1.3705499979550932,
+          "max": 2.6427999982843176
+        },
+        "retrieval": {
+          "count": 15,
+          "p50": 1.9465000077616423,
+          "p95": 2.3711399975582017,
+          "max": 2.815499989083037
+        },
+        "tool": {
+          "count": 5,
+          "p50": 1.3845999928889796,
+          "p95": 1.8836600036593154,
+          "max": 1.9653000053949654
+        }
+      },
+      "ttft_ms": {
+        "count": 0,
+        "p50": null,
+        "p95": null,
+        "max": null
+      },
+      "effective_completion_tokens_per_second": null,
+      "token_rate_samples": 0,
+      "token_rate_definition": "Completion tokens divided by model call duration, including RPC, retry and backoff time; not decoding-only throughput.",
+      "cost_estimate": {
+        "currency": null,
+        "total": null,
+        "per_request": null,
+        "per_successful_task": null,
+        "priced_model_requests": 0,
+        "model_requests": 15,
+        "basis": "Provider token cost only; read-tool requests make no model call. CPU, GPU, storage and network resource costs are not estimated."
+      },
+      "model_names": [
+        "deterministic-extractive-v1"
+      ],
+      "model_paths": [
+        "demo"
+      ],
+      "records": [
+        {
+          "index": 0,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 7.235299999592826,
+          "timings_ms": {
+            "total": 5.807200010167435,
+            "model": 0.7707000040682033,
+            "retrieval": 1.9465000077616423,
+            "tool": null
+          },
+          "model_duration_ms": 0.6543000054080039,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 1,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 5.970700003672391,
+          "timings_ms": {
+            "total": 4.600900007062592,
+            "model": 0.6809000042267144,
+            "retrieval": 1.7990000051213428,
+            "tool": null
+          },
+          "model_duration_ms": 0.5829000001540408,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 2,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 6.610299999010749,
+          "timings_ms": {
+            "total": 5.235799995716661,
+            "model": 0.6636999896727502,
+            "retrieval": 2.0613000087905675,
+            "tool": null
+          },
+          "model_duration_ms": 0.5187000060686842,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 3,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 8.887699994374998,
+          "timings_ms": {
+            "total": 7.422000009682961,
+            "model": null,
+            "retrieval": null,
+            "tool": 1.5570999967167154
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 4,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 6.619599997065961,
+          "timings_ms": {
+            "total": 5.186199996387586,
+            "model": 0.7812999974703416,
+            "retrieval": 2.112200003466569,
+            "tool": null
+          },
+          "model_duration_ms": 0.6514999986393377,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 5,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 8.652600008645095,
+          "timings_ms": {
+            "total": 7.128500001272187,
+            "model": 2.6427999982843176,
+            "retrieval": 1.8432999931974337,
+            "tool": null
+          },
+          "model_duration_ms": 2.474299995810725,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 6,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 6.407399996533059,
+          "timings_ms": {
+            "total": 4.743800003780052,
+            "model": 0.5066999874543399,
+            "retrieval": 1.9857000006595626,
+            "tool": null
+          },
+          "model_duration_ms": 0.407900006393902,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 7,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 10.163400002056733,
+          "timings_ms": {
+            "total": 8.693000010680407,
+            "model": null,
+            "retrieval": null,
+            "tool": 1.9653000053949654
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 8,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 6.526600001961924,
+          "timings_ms": {
+            "total": 5.076900008134544,
+            "model": 0.8023999980650842,
+            "retrieval": 1.909899991005659,
+            "tool": null
+          },
+          "model_duration_ms": 0.672499998472631,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 9,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 6.899699990754016,
+          "timings_ms": {
+            "total": 5.391799990320578,
+            "model": 0.7459000044036657,
+            "retrieval": 2.066199987893924,
+            "tool": null
+          },
+          "model_duration_ms": 0.6138000026112422,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 10,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 6.562900001881644,
+          "timings_ms": {
+            "total": 4.776799993123859,
+            "model": 0.5080999981146306,
+            "retrieval": 1.9208000012440607,
+            "tool": null
+          },
+          "model_duration_ms": 0.4011999990325421,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 11,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 9.075899986783043,
+          "timings_ms": {
+            "total": 7.578400007332675,
+            "model": null,
+            "retrieval": null,
+            "tool": 1.3765000039711595
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 12,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 6.5599000081419945,
+          "timings_ms": {
+            "total": 5.057000002125278,
+            "model": 0.7695000094827265,
+            "retrieval": 1.9320999999763444,
+            "tool": null
+          },
+          "model_duration_ms": 0.6483000033767894,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 13,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 7.769000003463589,
+          "timings_ms": {
+            "total": 6.175200003781356,
+            "model": 0.7769000076223165,
+            "retrieval": 2.1807000011904165,
+            "tool": null
+          },
+          "model_duration_ms": 0.6286999996518716,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 14,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 6.621700013056397,
+          "timings_ms": {
+            "total": 5.164000001968816,
+            "model": 0.5829000001540408,
+            "retrieval": 1.9026999943889678,
+            "tool": null
+          },
+          "model_duration_ms": 0.46609999844804406,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 15,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 8.657299986225553,
+          "timings_ms": {
+            "total": 7.324999998672865,
+            "model": null,
+            "retrieval": null,
+            "tool": 1.3845999928889796
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 16,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 7.797600002959371,
+          "timings_ms": {
+            "total": 6.288500007940456,
+            "model": 0.8252999978139997,
+            "retrieval": 2.815499989083037,
+            "tool": null
+          },
+          "model_duration_ms": 0.6779000104870647,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 17,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 7.189600000856444,
+          "timings_ms": {
+            "total": 5.571500005316921,
+            "model": 0.7148000004235655,
+            "retrieval": 2.144800004316494,
+            "tool": null
+          },
+          "model_duration_ms": 0.5970000056549907,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 18,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 5.8206999965477735,
+          "timings_ms": {
+            "total": 4.525500000454485,
+            "model": 0.4971000016666949,
+            "retrieval": 1.9011000113096088,
+            "tool": null
+          },
+          "model_duration_ms": 0.3980000037699938,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 19,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 8.227099999203347,
+          "timings_ms": {
+            "total": 6.844100003945641,
+            "model": null,
+            "retrieval": null,
+            "tool": 1.3013999996474013
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        }
+      ]
+    },
+    "moderate": {
+      "requests": 100,
+      "concurrency": 10,
+      "elapsed_seconds": 0.5838859000068624,
+      "successes": 100,
+      "errors": 0,
+      "success_rate": 1.0,
+      "error_rate": 0.0,
+      "requests_per_second": 171.26633816439943,
+      "successful_requests_per_second": 171.26633816439943,
+      "mix": {
+        "rag": 75,
+        "read_tool": 25
+      },
+      "http_latency_ms": {
+        "count": 100,
+        "p50": 37.21840000071097,
+        "p95": 135.98016000978532,
+        "max": 165.54509999696165
+      },
+      "component_latency_ms": {
+        "total": {
+          "count": 100,
+          "p50": 30.236300008255057,
+          "p95": 87.94480999495133,
+          "max": 149.85420000448357
+        },
+        "model": {
+          "count": 75,
+          "p50": 0.7031999994069338,
+          "p95": 0.8499100076733156,
+          "max": 0.9764000133145601
+        },
+        "retrieval": {
+          "count": 75,
+          "p50": 13.789799995720387,
+          "p95": 30.72683999780565,
+          "max": 123.82370000705123
+        },
+        "tool": {
+          "count": 25,
+          "p50": 18.485000007785857,
+          "p95": 28.917159998673004,
+          "max": 36.1101000016788
+        }
+      },
+      "ttft_ms": {
+        "count": 0,
+        "p50": null,
+        "p95": null,
+        "max": null
+      },
+      "effective_completion_tokens_per_second": null,
+      "token_rate_samples": 0,
+      "token_rate_definition": "Completion tokens divided by model call duration, including RPC, retry and backoff time; not decoding-only throughput.",
+      "cost_estimate": {
+        "currency": null,
+        "total": null,
+        "per_request": null,
+        "per_successful_task": null,
+        "priced_model_requests": 0,
+        "model_requests": 75,
+        "basis": "Provider token cost only; read-tool requests make no model call. CPU, GPU, storage and network resource costs are not estimated."
+      },
+      "model_names": [
+        "deterministic-extractive-v1"
+      ],
+      "model_paths": [
+        "demo"
+      ],
+      "records": [
+        {
+          "index": 0,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 128.04250000044703,
+          "timings_ms": {
+            "total": 41.00260000268463,
+            "model": 0.7733999955235049,
+            "retrieval": 22.402600006898865,
+            "tool": null
+          },
+          "model_duration_ms": 0.6573999999091029,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 1,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 136.7716999957338,
+          "timings_ms": {
+            "total": 46.826299992972054,
+            "model": 0.6282000103965402,
+            "retrieval": 29.105299996444955,
+            "tool": null
+          },
+          "model_duration_ms": 0.5578999989666045,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 2,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 135.93850001052488,
+          "timings_ms": {
+            "total": 46.12549999728799,
+            "model": 0.4889999981969595,
+            "retrieval": 28.911000001244247,
+            "tool": null
+          },
+          "model_duration_ms": 0.39680000918451697,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 3,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 153.69490000011865,
+          "timings_ms": {
+            "total": 65.48859999747947,
+            "model": null,
+            "retrieval": null,
+            "tool": 29.682899999897927
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 4,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 104.94130000006407,
+          "timings_ms": {
+            "total": 16.6598000068916,
+            "model": 0.8080999978119507,
+            "retrieval": 3.579399999580346,
+            "tool": null
+          },
+          "model_duration_ms": 0.6783999997423962,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 5,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 108.7755000044126,
+          "timings_ms": {
+            "total": 20.935099993948825,
+            "model": 0.7007999956840649,
+            "retrieval": 6.917999999132007,
+            "tool": null
+          },
+          "model_duration_ms": 0.5876000068383291,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 6,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 104.60140000213869,
+          "timings_ms": {
+            "total": 15.994799992768094,
+            "model": 0.5112000071676448,
+            "retrieval": 2.787499994155951,
+            "tool": null
+          },
+          "model_duration_ms": 0.40120001358445734,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 7,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 165.54509999696165,
+          "timings_ms": {
+            "total": 76.16940001025796,
+            "model": null,
+            "retrieval": null,
+            "tool": 20.067800011020154
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 8,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 118.74360000365414,
+          "timings_ms": {
+            "total": 29.709300011745654,
+            "model": 0.7894999871496111,
+            "retrieval": 13.789799995720387,
+            "tool": null
+          },
+          "model_duration_ms": 0.6595000013476238,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 9,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 118.7041999946814,
+          "timings_ms": {
+            "total": 28.522799999336712,
+            "model": 0.6336999940685928,
+            "retrieval": 13.373599998885766,
+            "tool": null
+          },
+          "model_duration_ms": 0.5553999944822863,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 10,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 33.92329999769572,
+          "timings_ms": {
+            "total": 29.855599990696646,
+            "model": 0.5108000041218475,
+            "retrieval": 13.117199996486306,
+            "tool": null
+          },
+          "model_duration_ms": 0.4034000012325123,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 11,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 77.20830000471324,
+          "timings_ms": {
+            "total": 74.3637999985367,
+            "model": null,
+            "retrieval": null,
+            "tool": 12.407999995048158
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 12,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 32.156100001884624,
+          "timings_ms": {
+            "total": 27.723100007278845,
+            "model": 0.7470999989891425,
+            "retrieval": 11.075400005211122,
+            "tool": null
+          },
+          "model_duration_ms": 0.6473000103142112,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 13,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 33.84669999650214,
+          "timings_ms": {
+            "total": 30.21670000453014,
+            "model": 0.7108999998308718,
+            "retrieval": 12.51580000098329,
+            "tool": null
+          },
+          "model_duration_ms": 0.6017999985488132,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 14,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 33.658400003332645,
+          "timings_ms": {
+            "total": 31.375399994431064,
+            "model": 0.48099999548867345,
+            "retrieval": 15.764399999170564,
+            "tool": null
+          },
+          "model_duration_ms": 0.3963000053772703,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 15,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 120.00879998959135,
+          "timings_ms": {
+            "total": 117.86749999737367,
+            "model": null,
+            "retrieval": null,
+            "tool": 11.027899992768653
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 16,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 32.618099998217076,
+          "timings_ms": {
+            "total": 21.577300009084865,
+            "model": 0.7569000008516014,
+            "retrieval": 9.904999998980202,
+            "tool": null
+          },
+          "model_duration_ms": 0.6571999983862042,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 17,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 34.276299993507564,
+          "timings_ms": {
+            "total": 24.094699998386204,
+            "model": 0.7031999994069338,
+            "retrieval": 10.303100003511645,
+            "tool": null
+          },
+          "model_duration_ms": 0.6070000090403482,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 18,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 43.029499996919185,
+          "timings_ms": {
+            "total": 35.13429999293294,
+            "model": 0.5216999998083338,
+            "retrieval": 23.33619999990333,
+            "tool": null
+          },
+          "model_duration_ms": 0.41449999844189733,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 19,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 153.3328000077745,
+          "timings_ms": {
+            "total": 149.85420000448357,
+            "model": null,
+            "retrieval": null,
+            "tool": 16.5975999989314
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 20,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 29.081799992127344,
+          "timings_ms": {
+            "total": 24.048799998126924,
+            "model": 0.6939000013517216,
+            "retrieval": 15.278799997759052,
+            "tool": null
+          },
+          "model_duration_ms": 0.6207999977050349,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 21,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 43.34260000905488,
+          "timings_ms": {
+            "total": 39.55239999049809,
+            "model": 0.7156000065151602,
+            "retrieval": 31.19219999643974,
+            "tool": null
+          },
+          "model_duration_ms": 0.610099988989532,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 22,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 28.410200000507757,
+          "timings_ms": {
+            "total": 25.071700001717545,
+            "model": 0.4592000041157007,
+            "retrieval": 15.58659999864176,
+            "tool": null
+          },
+          "model_duration_ms": 0.38300000596791506,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 23,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 65.47059999138582,
+          "timings_ms": {
+            "total": 60.34479998925235,
+            "model": null,
+            "retrieval": null,
+            "tool": 14.60939999378752
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 24,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 139.3504000006942,
+          "timings_ms": {
+            "total": 135.29770000604913,
+            "model": 0.7266000029630959,
+            "retrieval": 123.82370000705123,
+            "tool": null
+          },
+          "model_duration_ms": 0.6226999976206571,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 25,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 23.45470000000205,
+          "timings_ms": {
+            "total": 18.61109999299515,
+            "model": 0.8362000080524012,
+            "retrieval": 8.31340000149794,
+            "tool": null
+          },
+          "model_duration_ms": 0.7339000003412366,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 26,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 29.054300001007505,
+          "timings_ms": {
+            "total": 25.32489999430254,
+            "model": 0.5415000050561503,
+            "retrieval": 14.76639999600593,
+            "tool": null
+          },
+          "model_duration_ms": 0.44889999844599515,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 27,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 101.39299998991191,
+          "timings_ms": {
+            "total": 95.95919999992475,
+            "model": null,
+            "retrieval": null,
+            "tool": 18.3415000064997
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 28,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 22.13820000179112,
+          "timings_ms": {
+            "total": 17.72950000304263,
+            "model": 0.7726999901933596,
+            "retrieval": 7.977499990374781,
+            "tool": null
+          },
+          "model_duration_ms": 0.6588999967789277,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 29,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 22.104800009401515,
+          "timings_ms": {
+            "total": 19.08430000185035,
+            "model": 0.6281999958446249,
+            "retrieval": 9.42300001042895,
+            "tool": null
+          },
+          "model_duration_ms": 0.5517000099644065,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 30,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 23.070700000971556,
+          "timings_ms": {
+            "total": 21.05749999464024,
+            "model": 0.5298000032780692,
+            "retrieval": 11.93000000785105,
+            "tool": null
+          },
+          "model_duration_ms": 0.421799995820038,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 31,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 62.039299999014474,
+          "timings_ms": {
+            "total": 58.95849999797065,
+            "model": null,
+            "retrieval": null,
+            "tool": 12.527300001238473
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 32,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 33.69429998565465,
+          "timings_ms": {
+            "total": 29.49339999759104,
+            "model": 0.8145999890984967,
+            "retrieval": 14.426100009586662,
+            "tool": null
+          },
+          "model_duration_ms": 0.6850999925518408,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 33,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 21.541900001466274,
+          "timings_ms": {
+            "total": 17.896700010169297,
+            "model": 0.7666000019526109,
+            "retrieval": 6.300799999735318,
+            "tool": null
+          },
+          "model_duration_ms": 0.6395000091288239,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 34,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 25.608700001612306,
+          "timings_ms": {
+            "total": 21.512699997401796,
+            "model": 0.5450000026030466,
+            "retrieval": 7.690300000831485,
+            "tool": null
+          },
+          "model_duration_ms": 0.44439999328460544,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 35,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 62.48879998747725,
+          "timings_ms": {
+            "total": 59.403300008852966,
+            "model": null,
+            "retrieval": null,
+            "tool": 25.854199993773364
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 36,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 31.674900004873052,
+          "timings_ms": {
+            "total": 22.37789999344386,
+            "model": 0.7351000094786286,
+            "retrieval": 8.94230000267271,
+            "tool": null
+          },
+          "model_duration_ms": 0.6335000070976093,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 37,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 22.928399994270876,
+          "timings_ms": {
+            "total": 16.36410001083277,
+            "model": 0.9521000029053539,
+            "retrieval": 5.1891000039177015,
+            "tool": null
+          },
+          "model_duration_ms": 0.8315000013681129,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 38,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 23.472999993828125,
+          "timings_ms": {
+            "total": 19.124400001601316,
+            "model": 0.5447000003186986,
+            "retrieval": 10.69860000279732,
+            "tool": null
+          },
+          "model_duration_ms": 0.44589999015443027,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 39,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 65.21239998983219,
+          "timings_ms": {
+            "total": 62.763099995208904,
+            "model": null,
+            "retrieval": null,
+            "tool": 15.834499994525686
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 40,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 25.6437000061851,
+          "timings_ms": {
+            "total": 23.087499997927807,
+            "model": 0.7672000065213069,
+            "retrieval": 14.69899999210611,
+            "tool": null
+          },
+          "model_duration_ms": 0.6592999998247251,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 41,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 29.38180000637658,
+          "timings_ms": {
+            "total": 19.859200008795597,
+            "model": 0.673400005325675,
+            "retrieval": 10.20750000316184,
+            "tool": null
+          },
+          "model_duration_ms": 0.5812000017613173,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 42,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 20.022700002300553,
+          "timings_ms": {
+            "total": 15.66790000651963,
+            "model": 0.5002999969292432,
+            "retrieval": 6.452599991462193,
+            "tool": null
+          },
+          "model_duration_ms": 0.41349999082740396,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 43,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 61.942000000271946,
+          "timings_ms": {
+            "total": 57.62059999688063,
+            "model": null,
+            "retrieval": null,
+            "tool": 19.376700001885183
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 44,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 27.20130000670906,
+          "timings_ms": {
+            "total": 19.141700002364814,
+            "model": 0.8116000099107623,
+            "retrieval": 7.9661999916424975,
+            "tool": null
+          },
+          "model_duration_ms": 0.7074000022839755,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 45,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 32.02000001328997,
+          "timings_ms": {
+            "total": 28.227399991010316,
+            "model": 0.7999999943422154,
+            "retrieval": 12.359300002572127,
+            "tool": null
+          },
+          "model_duration_ms": 0.6619000050704926,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 46,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 50.47699999704491,
+          "timings_ms": {
+            "total": 42.34240000369027,
+            "model": 0.4828999954042956,
+            "retrieval": 30.527399998391047,
+            "tool": null
+          },
+          "model_duration_ms": 0.39879999530967325,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 47,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 95.52680001070257,
+          "timings_ms": {
+            "total": 87.5229999946896,
+            "model": null,
+            "retrieval": null,
+            "tool": 21.99799999652896
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 48,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 44.120100006693974,
+          "timings_ms": {
+            "total": 34.77050000219606,
+            "model": 0.71340000431519,
+            "retrieval": 21.34860001388006,
+            "tool": null
+          },
+          "model_duration_ms": 0.6241999944904819,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 49,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 37.23739999986719,
+          "timings_ms": {
+            "total": 29.78389999771025,
+            "model": 0.7334000110859051,
+            "retrieval": 17.8621000086423,
+            "tool": null
+          },
+          "model_duration_ms": 0.6161000055726618,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 50,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 40.21320000174455,
+          "timings_ms": {
+            "total": 36.37170000001788,
+            "model": 0.5543000006582588,
+            "retrieval": 21.472499996889383,
+            "tool": null
+          },
+          "model_duration_ms": 0.4533000028459355,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 51,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 80.89389999804553,
+          "timings_ms": {
+            "total": 77.12420000461861,
+            "model": null,
+            "retrieval": null,
+            "tool": 16.906199991353787
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 52,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 40.68890000053216,
+          "timings_ms": {
+            "total": 33.64759999385569,
+            "model": 0.7919999916339293,
+            "retrieval": 20.530800000415184,
+            "tool": null
+          },
+          "model_duration_ms": 0.6824000010965392,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 53,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 42.55080000439193,
+          "timings_ms": {
+            "total": 37.721100001363084,
+            "model": 0.6533999985549599,
+            "retrieval": 20.96940000774339,
+            "tool": null
+          },
+          "model_duration_ms": 0.565100010135211,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 54,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 37.19940000155475,
+          "timings_ms": {
+            "total": 30.77070000290405,
+            "model": 0.5773000011686236,
+            "retrieval": 16.269100000499748,
+            "tool": null
+          },
+          "model_duration_ms": 0.46440000005532056,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 55,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 119.7447999875294,
+          "timings_ms": {
+            "total": 115.52399999345653,
+            "model": null,
+            "retrieval": null,
+            "tool": 36.1101000016788
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 56,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 35.46539999661036,
+          "timings_ms": {
+            "total": 33.44080000533722,
+            "model": 0.7470999989891425,
+            "retrieval": 17.206299991812557,
+            "tool": null
+          },
+          "model_duration_ms": 0.6512000109069049,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 57,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 33.575400011613965,
+          "timings_ms": {
+            "total": 29.30039999773726,
+            "model": 0.67710000439547,
+            "retrieval": 15.776699990965426,
+            "tool": null
+          },
+          "model_duration_ms": 0.5830000009154901,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 58,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 33.37199999077711,
+          "timings_ms": {
+            "total": 25.570899990270846,
+            "model": 0.43420000292826444,
+            "retrieval": 11.050500004785135,
+            "tool": null
+          },
+          "model_duration_ms": 0.3668999997898936,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 59,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 71.67810000828467,
+          "timings_ms": {
+            "total": 66.18959999468643,
+            "model": null,
+            "retrieval": null,
+            "tool": 23.39159999974072
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 60,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 30.057700001634657,
+          "timings_ms": {
+            "total": 24.41460000409279,
+            "model": 0.7378000009339303,
+            "retrieval": 12.700599996605888,
+            "tool": null
+          },
+          "model_duration_ms": 0.6451999943237752,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 61,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 38.976700001512654,
+          "timings_ms": {
+            "total": 33.319599999231286,
+            "model": 0.9764000133145601,
+            "retrieval": 18.638199995621108,
+            "tool": null
+          },
+          "model_duration_ms": 0.8802000083960593,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 62,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 25.222299998858944,
+          "timings_ms": {
+            "total": 22.528500005137175,
+            "model": 0.6276999920373783,
+            "retrieval": 10.493099995073862,
+            "tool": null
+          },
+          "model_duration_ms": 0.513400009367615,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 63,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 84.86810000613332,
+          "timings_ms": {
+            "total": 82.51560000644531,
+            "model": null,
+            "retrieval": null,
+            "tool": 23.05299999716226
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 64,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 33.12459999870043,
+          "timings_ms": {
+            "total": 28.72600000409875,
+            "model": 0.7945999968796968,
+            "retrieval": 13.625099993078038,
+            "tool": null
+          },
+          "model_duration_ms": 0.6995000003371388,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 65,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 32.70330000668764,
+          "timings_ms": {
+            "total": 29.864600001019426,
+            "model": 0.7080999930622056,
+            "retrieval": 13.648299995111302,
+            "tool": null
+          },
+          "model_duration_ms": 0.5948000034550205,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 66,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 51.95720000483561,
+          "timings_ms": {
+            "total": 43.53289998834953,
+            "model": 0.49789999320637435,
+            "retrieval": 27.829999991809018,
+            "tool": null
+          },
+          "model_duration_ms": 0.4208000027574599,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 67,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 75.11130000057165,
+          "timings_ms": {
+            "total": 68.44920000003185,
+            "model": null,
+            "retrieval": null,
+            "tool": 13.529599993489683
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 68,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 34.76019999652635,
+          "timings_ms": {
+            "total": 28.890900008263998,
+            "model": 0.8819000067887828,
+            "retrieval": 15.96790000621695,
+            "tool": null
+          },
+          "model_duration_ms": 0.7653999928152189,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 69,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 34.44370000215713,
+          "timings_ms": {
+            "total": 30.255900011979975,
+            "model": 0.6645999965257943,
+            "retrieval": 16.440199993667193,
+            "tool": null
+          },
+          "model_duration_ms": 0.5759999912697822,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 70,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 39.77600000507664,
+          "timings_ms": {
+            "total": 31.82319999905303,
+            "model": 0.5184000037843361,
+            "retrieval": 14.419500002986751,
+            "tool": null
+          },
+          "model_duration_ms": 0.4124999977648258,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 71,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 87.29840000160038,
+          "timings_ms": {
+            "total": 82.62800000375137,
+            "model": null,
+            "retrieval": null,
+            "tool": 22.499700004118495
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 72,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 30.317800003103912,
+          "timings_ms": {
+            "total": 26.618599993526004,
+            "model": 0.7144999981392175,
+            "retrieval": 10.87579999875743,
+            "tool": null
+          },
+          "model_duration_ms": 0.6309999880613759,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 73,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 24.39109999977518,
+          "timings_ms": {
+            "total": 20.755699995788746,
+            "model": 0.6308999872999266,
+            "retrieval": 8.59860000491608,
+            "tool": null
+          },
+          "model_duration_ms": 0.5595000111497939,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 74,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 26.668999998946674,
+          "timings_ms": {
+            "total": 23.175700000138022,
+            "model": 0.6197000038810074,
+            "retrieval": 12.917100000777282,
+            "tool": null
+          },
+          "model_duration_ms": 0.49869999929796904,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 75,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 79.35970000107773,
+          "timings_ms": {
+            "total": 77.37249998899642,
+            "model": null,
+            "retrieval": null,
+            "tool": 21.16839999507647
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 76,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 25.57310000702273,
+          "timings_ms": {
+            "total": 20.05300000018906,
+            "model": 0.7800000021234155,
+            "retrieval": 10.432200011564419,
+            "tool": null
+          },
+          "model_duration_ms": 0.668499997118488,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 77,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 32.531599994399585,
+          "timings_ms": {
+            "total": 28.606499996385537,
+            "model": 0.8124000014504418,
+            "retrieval": 15.613399998983368,
+            "tool": null
+          },
+          "model_duration_ms": 0.7093000021995977,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 78,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 47.89699999673758,
+          "timings_ms": {
+            "total": 42.533300002105534,
+            "model": 0.4440000047907233,
+            "retrieval": 33.75879999657627,
+            "tool": null
+          },
+          "model_duration_ms": 0.37009999505244195,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 79,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 79.51199999661185,
+          "timings_ms": {
+            "total": 74.93200000317302,
+            "model": null,
+            "retrieval": null,
+            "tool": 25.304800001322292
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 80,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 68.6623000074178,
+          "timings_ms": {
+            "total": 64.60599999991246,
+            "model": 0.9011999936774373,
+            "retrieval": 52.21280000114348,
+            "tool": null
+          },
+          "model_duration_ms": 0.7500999927287921,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 81,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 25.701799997477792,
+          "timings_ms": {
+            "total": 22.098000001278706,
+            "model": 0.8204999903682619,
+            "retrieval": 11.301400008960627,
+            "tool": null
+          },
+          "model_duration_ms": 0.6433999951696023,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 82,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 31.579099988448434,
+          "timings_ms": {
+            "total": 29.638300009537488,
+            "model": 0.5230999959167093,
+            "retrieval": 20.20970000012312,
+            "tool": null
+          },
+          "model_duration_ms": 0.4229000041959807,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 83,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 89.10990000003949,
+          "timings_ms": {
+            "total": 83.01529999880586,
+            "model": null,
+            "retrieval": null,
+            "tool": 15.04949999798555
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 84,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 31.365100003313273,
+          "timings_ms": {
+            "total": 27.729399997042492,
+            "model": 0.8062999986577779,
+            "retrieval": 14.95019999856595,
+            "tool": null
+          },
+          "model_duration_ms": 0.680199998896569,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 85,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 36.917100005666725,
+          "timings_ms": {
+            "total": 35.308799997437745,
+            "model": 0.7694000087212771,
+            "retrieval": 22.017099996446632,
+            "tool": null
+          },
+          "model_duration_ms": 0.6549000099767,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 86,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 34.07899999001529,
+          "timings_ms": {
+            "total": 30.967399987275712,
+            "model": 0.49429999489802867,
+            "retrieval": 16.79939999303315,
+            "tool": null
+          },
+          "model_duration_ms": 0.4009000113001093,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 87,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 76.79959999222774,
+          "timings_ms": {
+            "total": 70.30779999331571,
+            "model": null,
+            "retrieval": null,
+            "tool": 18.485000007785857
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 88,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 38.09159999946132,
+          "timings_ms": {
+            "total": 32.78369999316055,
+            "model": 0.7765000045765191,
+            "retrieval": 16.71409999835305,
+            "tool": null
+          },
+          "model_duration_ms": 0.6837000109953806,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 89,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 34.890999988419935,
+          "timings_ms": {
+            "total": 29.205599988927133,
+            "model": 0.8050999895203859,
+            "retrieval": 11.571499999263324,
+            "tool": null
+          },
+          "model_duration_ms": 0.6628999981330708,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 90,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 37.71910000068601,
+          "timings_ms": {
+            "total": 34.39349999825936,
+            "model": 0.589100003708154,
+            "retrieval": 17.26290000078734,
+            "tool": null
+          },
+          "model_duration_ms": 0.47080000513233244,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 91,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 72.14990000647958,
+          "timings_ms": {
+            "total": 70.30380000651348,
+            "model": null,
+            "retrieval": null,
+            "tool": 20.540299999993294
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 92,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 35.4632000089623,
+          "timings_ms": {
+            "total": 33.229399996344,
+            "model": 0.7468999974662438,
+            "retrieval": 14.710399991599843,
+            "tool": null
+          },
+          "model_duration_ms": 0.6428000051528215,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 93,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 39.98370000044815,
+          "timings_ms": {
+            "total": 29.606099997181445,
+            "model": 0.6905000045662746,
+            "retrieval": 13.915799994720146,
+            "tool": null
+          },
+          "model_duration_ms": 0.5950000049779192,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 94,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 33.876699992106296,
+          "timings_ms": {
+            "total": 22.052100001019426,
+            "model": 0.5344999954104424,
+            "retrieval": 7.929200000944547,
+            "tool": null
+          },
+          "model_duration_ms": 0.41769999370444566,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 95,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 47.11379999935161,
+          "timings_ms": {
+            "total": 36.25660001125652,
+            "model": null,
+            "retrieval": null,
+            "tool": 1.6600999952061102
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        },
+        {
+          "index": 96,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 35.111800010781735,
+          "timings_ms": {
+            "total": 26.164099996094592,
+            "model": 0.770999991800636,
+            "retrieval": 12.899399996967986,
+            "tool": null
+          },
+          "model_duration_ms": 0.6614000012632459,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 97,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 31.927299991366453,
+          "timings_ms": {
+            "total": 24.93299999332521,
+            "model": 0.6560000038007274,
+            "retrieval": 11.929100000998005,
+            "tool": null
+          },
+          "model_duration_ms": 0.5698000022675842,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 98,
+          "kind": "rag",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 28.562100007547997,
+          "timings_ms": {
+            "total": 25.415199997951277,
+            "model": 0.49920000310521573,
+            "retrieval": 12.189500004751608,
+            "tool": null
+          },
+          "model_duration_ms": 0.3989999968325719,
+          "model": "deterministic-extractive-v1",
+          "model_path": "demo",
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": "USD"
+          }
+        },
+        {
+          "index": 99,
+          "kind": "read_tool",
+          "http_status": 200,
+          "success": true,
+          "error_code": null,
+          "http_latency_ms": 50.85929999768268,
+          "timings_ms": {
+            "total": 48.111299998709,
+            "model": null,
+            "retrieval": null,
+            "tool": 1.4082999987294897
+          },
+          "model_duration_ms": null,
+          "model": null,
+          "model_path": null,
+          "usage": {},
+          "ttft_ms": null,
+          "tokens_per_second": null,
+          "cost_estimate": {
+            "amount": null,
+            "currency": null
+          }
+        }
+      ]
+    }
+  },
+  "retrieval_microbenchmark": {
+    "calls": 100,
+    "backend": "sqlite",
+    "scope": "public",
+    "transport": "direct local service",
+    "separate_from_http_target": true,
+    "ingested": {
+      "documents": 7,
+      "chunks": 7
+    },
+    "latency_ms": {
+      "count": 100,
+      "p50": 0.5912500055273995,
+      "p95": 0.852785002643941,
+      "max": 1.781800005119294
+    },
+    "elapsed_seconds": 0.06414870001026429,
+    "calls_per_second": 1558.878044044528,
+    "returned_chunks": [
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5,
+      5,
+      3,
+      5
+    ]
+  },
+  "separate_evaluation_reference": {
+    "included": true,
+    "artifact": "artifacts/evaluation-demo.json",
+    "generated_at": "2026-10-14T17:22:17.097150+00:00",
+    "case_count": 24,
+    "metrics": {
+      "retrieval_hit_rate": 1.0,
+      "source_coverage_rate": 1.0,
+      "source_grounding_correctness": 1.0,
+      "tool_selection_accuracy": 1.0,
+      "approval_policy_accuracy": 1.0,
+      "task_success_rate": 1.0,
+      "hallucination_error_rate": 0.041666666666666664,
+      "samples": {
+        "retrieval_hit_rate": {
+          "numerator": 15,
+          "denominator": 15
+        },
+        "source_coverage_rate": {
+          "numerator": 14,
+          "denominator": 14
+        },
+        "source_grounding_correctness": {
+          "numerator": 17,
+          "denominator": 17
+        },
+        "tool_selection_accuracy": {
+          "numerator": 24,
+          "denominator": 24
+        },
+        "approval_policy_accuracy": {
+          "numerator": 24,
+          "denominator": 24
+        },
+        "task_success_rate": {
+          "numerator": 24,
+          "denominator": 24
+        },
+        "hallucination_error_rate": {
+          "numerator": 1,
+          "denominator": 24
+        }
+      },
+      "latency_ms": {
+        "count": 24,
+        "p50": 9.175749997666571,
+        "p95": 20.566195002174933,
+        "max": 28.862999999546446
+      }
+    },
+    "failed_cases": [],
+    "basis": "Separate evaluation execution matching mode and local corpus manifest fingerprint; not quality inferred from load-test latency.",
+    "http_target_corpus_independently_verified": null
+  }
+}

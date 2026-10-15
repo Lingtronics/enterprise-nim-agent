@@ -1,0 +1,27 @@
+{{- if ne (int .Values.replicaCount) 1 }}
+{{- fail "Exactly one API replica is required for durable SQLite state." }}
+{{- end }}
+{{- if ge (int .Values.retrieval.chunkOverlap) (int .Values.retrieval.chunkSize) }}
+{{- fail "retrieval.chunkOverlap must be smaller than retrieval.chunkSize." }}
+{{- end }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "agent.fullname" . }}-config
+  namespace: {{ .Release.Namespace }}
+data:
+  MODEL_MODE: {{ .Values.model.mode | quote }}
+  NIM_BASE_URL: {{ .Values.model.baseUrl | quote }}
+  NIM_MODEL: {{ .Values.model.name | quote }}
+  NIM_TIMEOUT_SECONDS: {{ .Values.model.timeoutSeconds | quote }}
+  NIM_MAX_RETRIES: {{ .Values.model.maxRetries | quote }}
+  FALLBACK_ENABLED: {{ .Values.model.fallbackEnabled | quote }}
+  DATABASE_PATH: /app/data/runtime.db
+  CORPUS_PATH: /app/sample_data
+  VECTOR_BACKEND: qdrant
+  QDRANT_URL: "http://{{ include "agent.fullname" . }}-qdrant:6333"
+  RETRIEVAL_TOP_K: {{ .Values.retrieval.topK | quote }}
+  CHUNK_SIZE: {{ .Values.retrieval.chunkSize | quote }}
+  CHUNK_OVERLAP: {{ .Values.retrieval.chunkOverlap | quote }}
+  LOG_LEVEL: INFO
+  OTEL_EXPORTER_OTLP_ENDPOINT: {{ .Values.telemetry.endpoint | quote }}

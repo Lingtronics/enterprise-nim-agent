@@ -1,0 +1,47 @@
+# Durable approvals/tools use SQLite: one API replica and one uvicorn worker only.
+replicaCount: 1
+image:
+  repository: enterprise-nim-agent
+  tag: "0.1.0"
+  pullPolicy: IfNotPresent
+existingSecret: enterprise-agent-secrets
+model:
+  mode: demo
+  baseUrl: https://integrate.api.nvidia.com/v1
+  name: meta/llama-3.1-8b-instruct
+  timeoutSeconds: 30
+  maxRetries: 2
+  fallbackEnabled: true
+retrieval:
+  topK: 6
+  chunkSize: 800
+  chunkOverlap: 100
+service:
+  port: 8000
+persistence:
+  size: 1Gi
+  storageClass: ""
+resources:
+  requests:
+    cpu: 250m
+    memory: 256Mi
+  limits:
+    cpu: "1"
+    memory: 1Gi
+qdrant:
+  image:
+    repository: qdrant/qdrant
+    tag: v1.19.2
+    pullPolicy: IfNotPresent
+  persistence:
+    size: 5Gi
+    storageClass: ""
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    limits:
+      cpu: "1"
+      memory: 1Gi
+telemetry:
+  endpoint: ""

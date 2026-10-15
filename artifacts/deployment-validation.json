@@ -1,0 +1,17 @@
+{
+  "validation": "structural",
+  "success": true,
+  "checked": [
+    "k8s/configmap.yaml",
+    "k8s/deployment.yaml",
+    "k8s/namespace.yaml",
+    "k8s/networkpolicy.yaml",
+    "k8s/pvc.yaml",
+    "k8s/qdrant.yaml",
+    "k8s/service.yaml",
+    "docker-compose.yml",
+    "Dockerfile",
+    "artifacts\\helm-rendered.yaml"
+  ],
+  "errors": []
+}

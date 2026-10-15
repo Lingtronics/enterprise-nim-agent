@@ -1,0 +1,66 @@
+services:
+  agent-api:
+    build: .
+    image: enterprise-nim-agent:0.1.0
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      DATABASE_PATH: /app/data/runtime.db
+      CORPUS_PATH: /app/sample_data
+      VECTOR_BACKEND: qdrant
+      QDRANT_URL: http://vector-store:6333
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - api-state:/app/data
+    depends_on:
+      vector-store:
+        condition: service_started
+    user: "10001:10001"
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health/ready', timeout=3)"]
+      interval: 15s
+      timeout: 5s
+      start_period: 60s
+      retries: 4
+    stop_grace_period: 30s
+
+  vector-store:
+    image: qdrant/qdrant:v1.19.2
+    restart: unless-stopped
+    volumes:
+      - vector-data:/qdrant/storage
+    environment:
+      QDRANT__TELEMETRY_DISABLED: "true"
+      QDRANT__STORAGE__SNAPSHOTS_PATH: /qdrant/storage/snapshots
+      QDRANT_INIT_FILE_PATH: /qdrant/storage/.qdrant-initialized
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    # No host port: the unauthenticated reference Qdrant is private to this network.
+    # API startup retries handle Qdrant readiness without assuming curl in its image.
+
+  telemetry-collector:
+    image: otel/opentelemetry-collector:0.162.0
+    profiles: [telemetry]
+    command: ["--config=/etc/otelcol/config.yaml"]
+    volumes:
+      - ./telemetry/collector.yaml:/etc/otelcol/config.yaml:ro
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  api-state:
+  vector-data:

@@ -1,0 +1,10 @@
+The API runs one replica with a persistent SQLite database for approvals and operational state.
+Provision Secret {{ .Values.existingSecret }} in namespace {{ .Release.Namespace }} with keys
+API_TOKENS_JSON and NIM_API_KEY before starting the deployment. Never commit these values.
+
+For a local demo connection:
+  kubectl --namespace {{ .Release.Namespace }} port-forward service/{{ include "agent.fullname" . }} 8000:{{ .Values.service.port }}
+
+Check readiness at http://127.0.0.1:8000/health/ready.
+MODEL_MODE={{ .Values.model.mode }}; demo mode performs deterministic evidence selection.
+Switch model.mode to nim and supply NIM_API_KEY to call the configured NIM endpoint.
